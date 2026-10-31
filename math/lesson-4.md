@@ -34,7 +34,7 @@ The sum is $0+1+1+0=0$ in characteristic $2$, even though $p(1,0)=1$ and $p(0,1)
 For $\mathbf r=(r_1,\ldots,r_m)\in\mathbb{F}^m$ and a Boolean vector $\mathbf b$, define the equality weight
 
 $$
-\operatorname{eq}(\mathbf r,\mathbf b)
+\mathrm{eq}(\mathbf r,\mathbf b)
 =\prod_{i=1}^{m}\begin{cases}
 r_i,&b_i=1,\\
 1-r_i,&b_i=0.
@@ -45,13 +45,13 @@ This is the Boolean interpolation basis from Lesson 2 evaluated at $\mathbf r$. 
 
 $$
 \widetilde p(\mathbf r)
-=\sum_{\mathbf b\in\{0,1\}^m}\operatorname{eq}(\mathbf r,\mathbf b)\,p(\mathbf b).
+=\sum_{\mathbf b\in\{0,1\}^m}\mathrm{eq}(\mathbf r,\mathbf b)\,p(\mathbf b).
 $$
 
 So the prover can establish that all table entries are zero by sumchecking the weighted sum with claimed value zero:
 
 $$
-\sum_{\mathbf b\in\{0,1\}^m}\operatorname{eq}(\mathbf r,\mathbf b)p(\mathbf b)\stackrel{?}{=}0.
+\sum_{\mathbf b\in\{0,1\}^m}\mathrm{eq}(\mathbf r,\mathbf b)p(\mathbf b)\stackrel{?}{=}0.
 $$
 
 If every entry is zero, the claim holds for every $\mathbf r$. If at least one entry is nonzero, then $\widetilde p$ is a nonzero multilinear polynomial. A uniformly random $\mathbf r$ makes $\widetilde p(\mathbf r)=0$ with probability at most $m/|\mathbb F|$ by the Schwartz–Zippel bound. Sumcheck then verifies the weighted-sum claim, adding its own soundness error. In practice the field is chosen large enough that these errors are negligible.
@@ -68,9 +68,9 @@ so the randomized claim is nonzero and cannot honestly be proved as zero. The we
 
 $$
 \begin{aligned}
-\operatorname{eq}((X,X+1),(1,0))&=X\bigl(1-(X+1)\bigr)=X^2,\\
-\operatorname{eq}((X,X+1),(0,1))&=(1-X)(X+1)=(X+1)^2=X^2+1,\\
-\sum_{(x,y)\in\{0,1\}^2}\operatorname{eq}((X,X+1),(x,y))p(x,y)
+\mathrm{eq}((X,X+1),(1,0))&=X\bigl(1-(X+1)\bigr)=X^2,\\
+\mathrm{eq}((X,X+1),(0,1))&=(1-X)(X+1)=(X+1)^2=X^2+1,\\
+\sum_{(x,y)\in\{0,1\}^2}\mathrm{eq}((X,X+1),(x,y))p(x,y)
 &=X^2+(X^2+1)=1.
 \end{aligned}
 $$
@@ -95,7 +95,7 @@ For a Boolean circuit encoded over $\mathbb{F}_2$, the entries $a_{\mathbf i},b_
 
 $$
 G_{\mathbf r}(\mathbf i)
-=\operatorname{eq}(\mathbf r,\mathbf i)
+=\mathrm{eq}(\mathbf r,\mathbf i)
 \bigl(\widehat a(\mathbf i)\widehat b(\mathbf i)-\widehat c(\mathbf i)\bigr),
 \qquad \mathbf i\in\{0,1\}^m.
 $$
@@ -105,7 +105,7 @@ At Boolean inputs, the multilinear extensions recover the bit vectors, so the pa
 After sumcheck reaches a random point $\mathbf r_y$, the verifier checks the final value using the claimed evaluations $v_a=\widehat a(\mathbf r_y)$, $v_b=\widehat b(\mathbf r_y)$, and $v_c=\widehat c(\mathbf r_y)$:
 
 $$
-\operatorname{eq}(\mathbf r,\mathbf r_y)(v_av_b-v_c).
+\mathrm{eq}(\mathbf r,\mathbf r_y)(v_av_b-v_c).
 $$
 
 The individual degree of this sumcheck expression is at most $3$: the equality factor has degree one in each coordinate, each multilinear extension has degree one in each coordinate, and the product $\widehat a\widehat b$ has degree at most two in each. This degree bound is part of the verifier's checks.
@@ -122,9 +122,9 @@ $$
 \begin{aligned}
 \widehat a(\mathbf r_y)
 &=\sum_{\mathbf i\in\{0,1\}^m}
-  \operatorname{eq}(\mathbf r_y,\mathbf i)a_{\mathbf i}\\
+  \mathrm{eq}(\mathbf r_y,\mathbf i)a_{\mathbf i}\\
 &=\sum_{\mathbf i,\mathbf j\in\{0,1\}^m}
-  \operatorname{eq}(\mathbf r_y,\mathbf i)A_{\mathbf i,\mathbf j}z_{\mathbf j}\\
+  \mathrm{eq}(\mathbf r_y,\mathbf i)A_{\mathbf i,\mathbf j}z_{\mathbf j}\\
 &=\sum_{\mathbf j\in\{0,1\}^m}
   \widehat A(\mathbf r_y,\mathbf j)\widehat z(\mathbf j)\\
 &=\sum_{\mathbf x\in\{0,1\}^m}
@@ -246,7 +246,7 @@ Although Flock is often discussed alongside ZK systems, its paper states that th
 
 ## Exercises
 
-1. For the table $p(x,y)=xy$, compute the weighted sum $\sum_{(x,y)}\operatorname{eq}((X,X+1),(x,y))p(x,y)$ and verify it equals $X(X+1)$.
+1. For the table $p(x,y)=xy$, compute the weighted sum $\sum_{(x,y)}\mathrm{eq}((X,X+1),(x,y))p(x,y)$ and verify it equals $X(X+1)$.
 2. In the lincheck example, compute $\widehat A(X,0)$ and $\widehat A(X,1)$ from the four matrix entries rather than from the simplified formula.
 3. Explain why a lincheck is necessary even after zerocheck has produced values $v_a,v_b,v_c$.
 4. In the Flock R1CS relation, identify which values are bits in $\mathbb{F}_2$ and which challenges/evaluations lie in the extension field.
